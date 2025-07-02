@@ -29,6 +29,7 @@ export function calculateResults({ area, height, ead, safetyFactor, fa, trench, 
 }
 
 export function recommendProducts(targetGrams) {
+  targetGrams=targetGrams+50;
   const sortedProducts = Object.entries(productDetails)
     .map(([code, { agcMass }]) => [code, parseFloat(agcMass)])
     .sort((a, b) => b[1] - a[1]);
