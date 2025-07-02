@@ -1,11 +1,31 @@
 import { productDetails } from "./productDetails";
 
-export function calculateResults({ area, height, ead, safetyFactor, fa, trench, ceiling, floor }) {
-  const roomVolume = area * height;
-  const totalVolume = roomVolume + trench + ceiling + floor;
+export function calculateResults({ area, height, ead, safetyFactor, fa, trench, ceiling, room  }) {
+  const roomarea  =  isNaN(area) ? 0 : area;
+
+  // Fallback for NaN values using || 0
+  const safeTrench = isNaN(trench) ? 0 : trench;
+  const safeCeiling = isNaN(ceiling) ? 0 : ceiling;
+  const safeRoom = isNaN(room) ? 0 : room;
+  const roomVolume = roomarea * height;
+  const totalVolume = safeTrench + safeCeiling + safeRoom;
   const da = ead * safetyFactor;
   const totalAgent = da * fa * totalVolume;
-  return { roomVolume, totalVolume, da, totalAgent };
+  const RoomtotalAgent= da * fa * roomVolume;
+  console.log(RoomtotalAgent, "RoomtotalAgent");
+
+  const TrenchtotalAgent = da * fa * safeTrench;
+  console.log(TrenchtotalAgent, "TrenchtotalAgent");
+  const CeilingtotalAgent = da * fa * safeCeiling;
+  console.log(CeilingtotalAgent, "CeilingtotalAgent");
+  
+
+  console.log(totalAgent, "totalAgent");
+  console.log(da, "da");
+  console.log(totalVolume, "totalVolume");
+  console.log(roomVolume, "roomVolume");
+  
+  return { roomVolume, totalVolume, da, totalAgent ,roomarea ,safeTrench, safeCeiling, RoomtotalAgent, TrenchtotalAgent, CeilingtotalAgent  };
 }
 
 export function recommendProducts(targetGrams) {

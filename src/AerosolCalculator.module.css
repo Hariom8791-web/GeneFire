@@ -1,9 +1,11 @@
+/* ✅ File: AerosolCalculator.module.css */
+
 .container {
- width: 100vw;
- max-width: 100%;
+  width: 100vw;
+  max-width: 100%;
   min-height: 100vh;
   background: linear-gradient(135deg, #ffdd00, #ff7b00, #ff0000, #710115);
-  display:flex;
+  display: flex;
   justify-content: center;
   align-items: flex-start;
   padding: 2rem;
@@ -80,11 +82,12 @@
   margin-top: 2.5rem;
   background: #faf5ff;
   border-radius: 20px;
-  padding: 2rem;
+  padding: 3rem;
   border: 1px solid #e9d5ff;
 }
 
 .resultTitle {
+ 
   font-size: 1.25rem;
   color: #6d28d9;
   margin-bottom: 1rem;
@@ -94,7 +97,18 @@
 .resultText {
   font-size: 1rem;
   margin: 0.25rem 0;
-  color: #444;
+  color: #0a0a0a;
+}
+.resultLabel {
+  font-size: 1.0rem; /* Adjust font size as needed */
+  color: #000; /* Black text */
+   /* Bold text */
+  margin-right: 0.5rem; /* Add spacing between label and value */
+}
+.resultValue {
+  font-size: 1rem; /* Adjust font size as needed */
+  color: #4c1d95; /* Optional: Keep the value color distinct */
+  font-weight: normal; /* Normal weight for values */
 }
 
 .productGrid {
@@ -144,6 +158,7 @@
   font-size: 0.95rem;
   color: #444;
 }
+
 .qtyInput {
   margin-left: 10px;
   width: 60px;
@@ -172,6 +187,7 @@
 .removeBtn:hover {
   background: #c0392b;
 }
+
 .addProductBox {
   margin-top: 20px;
   padding: 15px;
@@ -206,5 +222,3 @@
 .addForm button:hover {
   background: #2c80b4;
 }
-
-/* Added styles for header and logo */
