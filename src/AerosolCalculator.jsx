@@ -165,7 +165,7 @@ export default function AerosolCalculator() {
   
       pdf.setFont("helvetica", "normal");
       pdf.setFontSize(12);
-      pdf.text("Contact: https://www.genefire.com/ | +91-XXXXXXXXXX", pageWidth / 2, y, { align: "center" });
+      pdf.text("Contact: https://www.genefire.com/ | +91-9718164585", pageWidth / 2, y, { align: "center" });
       y += 10;
   
       pdf.setDrawColor(0);
@@ -206,14 +206,14 @@ export default function AerosolCalculator() {
             pdf.setLineWidth(0.5);
             pdf.rect(margin, y - 5, pageWidth - margin * 2, 10); // Highlight border
             pdf.text(
-              `Code: ${code}, Qty: ${qty}, AGC Mass: ${detail?.agcMass || "N/A"}`,
+              `Product: ${code}, Qty: ${qty}, AGC Mass: ${detail?.agcMass || "N/A"}`,
               margin + 2,
               y
             );
             y += 15;
           });
         } else {
-          pdf.text("No products available.", margin, y);
+          pdf.text("No products selected.", margin, y);
           y += 15;
         }
       };
@@ -615,7 +615,7 @@ export default function AerosolCalculator() {
                   );
                 })
               ) : (
-                <p>No products available for Room Total Agent.</p>
+                <p>No products selected for Room Total Agent.</p>
               )}
             </div>
 
