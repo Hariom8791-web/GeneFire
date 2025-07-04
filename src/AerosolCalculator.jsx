@@ -40,13 +40,21 @@ export default function AerosolCalculator() {
   const [selectedSection, setSelectedSection] = useState("");
 
   // Handle input changes
+  // const handleChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setInputs(prev => ({
+  //     ...prev,
+  //     [name]: name === "fireClass" || name === "installation" 
+  //       ? value 
+  //       : parseFloat(value) || 0
+  //   }));
+  // };
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setInputs(prev => ({
+  
+    setInputs((prev) => ({
       ...prev,
-      [name]: name === "fireClass" || name === "installation" 
-        ? value 
-        : parseFloat(value) || 0
+      [name]: value === "" ? "" : parseFloat(value) || 0, // Set blank if input is empty
     }));
   };
   const handleAddProduct = () => {
@@ -295,8 +303,7 @@ export default function AerosolCalculator() {
               <input 
                 type="number" 
                 name="length" 
-                min="0.1"
-                step="0.1"
+
                 value={inputs.length} 
                 className={styles.input} 
                 onChange={handleChange} 
@@ -307,8 +314,7 @@ export default function AerosolCalculator() {
               <input 
                 type="number" 
                 name="breadth" 
-                min="0.1"
-                step="0.1"
+    
                 value={inputs.breadth} 
                 className={styles.input} 
                 onChange={handleChange} 
@@ -411,7 +417,7 @@ export default function AerosolCalculator() {
                 value={inputs.ead} 
                 className={styles.input} 
                 onChange={handleChange} 
-             disabled />
+             />
             </label>
             <label className={styles.label}>
               Safety Factor
@@ -423,7 +429,7 @@ export default function AerosolCalculator() {
                 value={inputs.safetyFactor} 
                 className={styles.input} 
                 onChange={handleChange} 
-              disabled />
+               />
             </label>
             <label className={styles.label}>
               Design Factor (fa)
@@ -435,7 +441,7 @@ export default function AerosolCalculator() {
                 value={inputs.fa} 
                 className={styles.input} 
                 onChange={handleChange} 
-               disabled />
+               />
             </label>
           </div>
         </div>
