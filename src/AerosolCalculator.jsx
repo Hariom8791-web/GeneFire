@@ -692,7 +692,7 @@ export default function AerosolCalculator() {
                   );
                 })
               ) : (
-                <p>No products available for Trench Total Agent.</p>
+                <p>No products selected for Trench Total Agent.</p>
               )}
             </div>
 
@@ -769,7 +769,7 @@ export default function AerosolCalculator() {
                   );
                 })
               ) : (
-                <p>No products available for Ceiling Total Agent.</p>
+                <p>No products selected for Ceiling Total Agent.</p>
               )}
             </div>
 
