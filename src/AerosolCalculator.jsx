@@ -137,37 +137,6 @@ export default function AerosolCalculator() {
   };
 
   // Export to PDF
-  // const handleExportPDF = async () => {
-  //   try {
-  //     const canvas = await html2canvas(resultRef.current, {
-  //       scale: 2,
-  //       useCORS: true,
-  //       scrollY: -window.scrollY
-  //     });
-      
-  //     const imgData = canvas.toDataURL("image/png");
-  //     const pdf = new jsPDF();
-  //     const width = pdf.internal.pageSize.getWidth();
-  //     const height = (canvas.height * width) / canvas.width;
-
-  //     // Add company header
-  //     pdf.setFont("helvetica", "bold");
-  //     pdf.setFontSize(20);
-  //     pdf.text("Genefire Pvt. Ltd.", width / 2, 20, { align: "center" });
-
-  //     pdf.setFont("helvetica", "normal");
-  //     pdf.setFontSize(14);
-  //     pdf.text("Contact Details: info@genefire.com | +91 xx xx xx xx xx", 
-  //       width / 2, 30, { align: "center" });
-
-  //     // Add results content
-  //     pdf.addImage(imgData, "PNG", 0, 40, width, height);
-  //     pdf.save("Aerosol_Calculator_Result.pdf");
-  //   } catch (error) {
-  //     console.error("PDF export error:", error);
-  //     alert("Failed to generate PDF. Please try again.");
-  //   }
-  // };
   const handleExportPDF = async () => {
     try {
       const pdf = new jsPDF({
@@ -206,11 +175,17 @@ export default function AerosolCalculator() {
       pdf.line(margin, y, pageWidth - margin, y); // Add a horizontal line
       y += 5;
   
-      // Helper function to add product rows
-      const addProductRows = (title, products, agentReq) => {
+      // Helper function to add product rows with volume
+      const addProductRows = (title, products, agentReq, volume) => {
         pdf.setFont("helvetica", "bold");
         pdf.setFontSize(14);
         pdf.text(`${title} (${agentReq}g Agent Mass Required):`, margin, y);
+        y += 10;
+  
+        // Add volume
+        pdf.setFont("helvetica", "italic");
+        pdf.setFontSize(12);
+        pdf.text(`Volume: ${volume.toFixed(2)} m³`, margin, y);
         y += 10;
   
         if (Object.entries(products).length > 0) {
@@ -223,7 +198,7 @@ export default function AerosolCalculator() {
             pdf.setLineWidth(0.5);
             pdf.rect(margin, y - 5, pageWidth - margin * 2, 10); // Highlight border
             pdf.text(
-              `Code: ${code},         Qty: ${qty},            AGC Mass: ${detail?.agcMass || "N/A"}`,
+              `Code: ${code}, Qty: ${qty}, AGC Mass: ${detail?.agcMass || "N/A"}`,
               margin + 2,
               y
             );
@@ -236,13 +211,16 @@ export default function AerosolCalculator() {
       };
   
       // Add Room Products
-      addProductRows("Room Products", roomTotalAgent, roomagentreq);
+      const roomVolume = inputs.length * inputs.breadth * inputs.height;
+      addProductRows("Room Products", roomTotalAgent, roomagentreq, roomVolume);
   
       // Add Trench Products
-      addProductRows("Trench Products", trenchTotalAgent, trenchagentreq);
+      const trenchVolume = inputs.trenchLength * inputs.trenchWidth * inputs.trenchHeight;
+      addProductRows("Trench Products", trenchTotalAgent, trenchagentreq, trenchVolume);
   
       // Add Ceiling Products
-      addProductRows("Ceiling Products", ceilingTotalAgent, ceilingagentreq);
+      const ceilingVolume = inputs.length * inputs.breadth * inputs.ceilingHeight;
+      addProductRows("Ceiling Products", ceilingTotalAgent, ceilingagentreq, ceilingVolume);
   
       // Add footer
       y += 10;
