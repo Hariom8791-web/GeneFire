@@ -49,12 +49,16 @@ export default function AerosolCalculator() {
   //       : parseFloat(value) || 0
   //   }));
   // };
+  let installation="";
   const handleChange = (e) => {
+    console.log("e",e)
     const { name, value } = e.target;
-  
+    setInstallation(inputs.installation);
+    console.log("inputs.installation",inputs.installation)
+     installation = inputs.installation;
     setInputs((prev) => ({
       ...prev,
-      [name]: value === "" ? "" : parseFloat(value) || 0, // Set blank if input is empty
+      [name]: name === "installation" || name === "fireClass" ? value : value === "" ? "" : parseFloat(value) || 0,
     }));
   };
   const handleAddProduct = () => {
@@ -110,13 +114,13 @@ export default function AerosolCalculator() {
         ceiling: ceilingVolume,
         room: roomVolume,
       };
-      setInstallation(inputs.installation);
-      const installation = inputs.installation;
+
       const res = calculateResults(updatedInputs);
       const reco = recommendProducts(res.totalAgent);
-      const roomAgent = recommendProducts(res.RoomtotalAgent);
-      const trenchAgent = recommendProducts(res.TrenchtotalAgent);
-      const ceilingAgent = recommendProducts(res.CeilingtotalAgent);
+      console.log(inputs.installation, "Installation Type");
+      const roomAgent = recommendProducts(res.RoomtotalAgent, inputs.installation);
+      const trenchAgent = recommendProducts(res.TrenchtotalAgent, inputs.installation);
+      const ceilingAgent = recommendProducts(res.CeilingtotalAgent, inputs.installation);;
       setRoomAgentReq(res.RoomtotalAgent);
       setTrenchAgentReq(res.TrenchtotalAgent);  
       setCeilingAgentReq(res.CeilingtotalAgent);
@@ -287,6 +291,7 @@ export default function AerosolCalculator() {
     return inputs.length > 0 && 
            inputs.breadth > 0 && 
            inputs.height > 0;
+           inputs.installation
   };
 
   return (
@@ -475,7 +480,7 @@ export default function AerosolCalculator() {
                 <option value="Room">Room</option>
                 <option value="Panel">Panel</option>
                 <option value="Container">Container</option>
-                <option value="Other">Other</option>
+                <option value="Both">Both</option>
               </select>
             </label>
           </div>
@@ -543,7 +548,7 @@ export default function AerosolCalculator() {
            <h3 className={styles.resultTitle}>🔥 Recommended Products</h3>
 
             {/* Room Total Agent Products */}
-            <h4 className={styles.resultTitle}>Room Products : {roomagentreq}g Agent mass Required</h4>
+            <h4 className={styles.resultTitle}>Room Products : {roomagentreq}g Agent mass Required for {result.roomVolume.toFixed(2)} m³ Volume</h4>
             <div className={styles.productGrid}>
               {Object.entries(roomTotalAgent).length > 0 ? (
                 Object.entries(roomTotalAgent).map(([code, qty]) => {
@@ -620,7 +625,7 @@ export default function AerosolCalculator() {
             </div>
 
             {/* Trench Total Agent Products */}
-            <h4 className={styles.resultTitle}>Trench Products : {trenchagentreq}g Agent mass Required</h4>
+            <h4 className={styles.resultTitle}>Trench Products : {trenchagentreq}g Agent mass Required for {result.safeTrench.toFixed(2)} m³ Volume</h4>
             <div className={styles.productGrid}>
               {Object.entries(trenchTotalAgent).length > 0 ? (
                 Object.entries(trenchTotalAgent).map(([code, qty]) => {
@@ -697,7 +702,7 @@ export default function AerosolCalculator() {
             </div>
 
             {/* Ceiling Total Agent Products */}
-            <h4 className={styles.resultTitle}>Ceiling Products : {ceilingagentreq}g Agent mass Required</h4>
+            <h4 className={styles.resultTitle}>Ceiling Products : {ceilingagentreq}g Agent mass Required for {result.safeCeiling.toFixed(2)} m³ Volume</h4>
             <div className={styles.productGrid}>
               {Object.entries(ceilingTotalAgent).length > 0 ? (
                 Object.entries(ceilingTotalAgent).map(([code, qty]) => {

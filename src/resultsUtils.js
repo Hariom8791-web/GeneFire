@@ -28,16 +28,28 @@ export function calculateResults({ area, height, ead, safetyFactor, fa, trench, 
   return { roomVolume, totalVolume, da, totalAgent ,roomarea ,safeTrench, safeCeiling, RoomtotalAgent, TrenchtotalAgent, CeilingtotalAgent  };
 }
 
-export function recommendProducts(targetGrams) {
-  targetGrams=targetGrams;
-  const sortedProducts = Object.entries(productDetails)
+export function recommendProducts(targetGrams, installation) {
+  targetGrams = targetGrams;
+
+  // Filter products based on the installation type
+  const filteredProducts = Object.entries(productDetails)
+    .filter(([code, { installationType }]) => {
+      if (installation === "Panel") {
+        return installationType === "Panel";
+      } else if (installation === "Room" || installation === "Container") {
+        return installationType === "Room";
+      } else if (installation === "Both") {
+        return true; // Include all products for "both"
+      }
+      return false;
+    })
     .map(([code, { agcMass }]) => [code, parseFloat(agcMass)])
-    .sort((a, b) => b[1] - a[1]);
+    .sort((a, b) => b[1] - a[1]); // Sort by descending AGC mass
 
   const recommendation = {};
   let remaining = targetGrams;
 
-  for (let [code, mass] of sortedProducts) {
+  for (let [code, mass] of filteredProducts) {
     if (mass === 0) continue;
     const count = Math.floor(remaining / mass);
     if (count > 0) {
@@ -47,8 +59,8 @@ export function recommendProducts(targetGrams) {
   }
 
   // Add smallest product to cover any remaining grams
-  if (remaining > 0) {
-    const [smallestCode] = sortedProducts[sortedProducts.length - 1];
+  if (remaining > 0 && filteredProducts.length > 0) {
+    const [smallestCode] = filteredProducts[filteredProducts.length - 1];
     recommendation[smallestCode] = (recommendation[smallestCode] || 0) + 1;
   }
 
