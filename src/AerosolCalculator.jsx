@@ -611,7 +611,7 @@ export default function AerosolCalculator() {
                             </div>
                             <div className={styles.specItem}>
                               <span className={styles.specLabel}>Installation:</span>
-                              <span>{detail.installation}</span>
+                              <span>{detail.installationType}</span>
                             </div>
                           </div>
                         )}
@@ -688,7 +688,7 @@ export default function AerosolCalculator() {
                             </div>
                             <div className={styles.specItem}>
                               <span className={styles.specLabel}>Installation:</span>
-                              <span>{detail.installation}</span>
+                              <span>{detail.installationType}</span>
                             </div>
                           </div>
                         )}
@@ -765,7 +765,7 @@ export default function AerosolCalculator() {
                             </div>
                             <div className={styles.specItem}>
                               <span className={styles.specLabel}>Installation:</span>
-                              <span>{detail.installation}</span>
+                              <span>{detail.installationType}</span>
                             </div>
                           </div>
                         )}
